@@ -1,0 +1,153 @@
+﻿@model PoolScoreKeeper.Models.HomeIndexViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-5">
+        <label for="winnerSelect">Winner</label>
+        <select id="winnerSelect" class="selectpicker">
+            @foreach (var player in Model.Players)
+            {
+                <option value="@player.Id">@player.FirstName @player.LastName</option>
+            }
+        </select>
+        <div>
+            <label for="winnerPocketedEightball">Pocketed Eightball</label>
+            <input id="winnerPocketedEightball" type="radio" name="winnerPocketedEightball" checked />
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div id="registerGame" class="btn btn-primary">Submit Game</div>
+    </div>
+
+    <div class="col-md-5">
+        <label for="loserSelect">Second place</label>
+        <select id="loserSelect" class="selectpicker">
+            @foreach (var player in Model.Players)
+            {
+                <option value="@player.Id">@player.FirstName @player.LastName</option>
+            }
+        </select>
+        <label for="loserPocketedEightball">Pocketed Eightball</label>
+        <input id="loserPocketedEightball" type="radio" name="winnerPocketedEightball" />
+    </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                <div class="row">
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4">Wins&darr;</div>
+                    <div class="col-xs-4">Losses&rarr;</div>
+                </div>
+            </th>
+            @foreach (var player in Model.Players)
+            {
+                <th>@player.FirstName</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Scores.GetLength(0); i++)
+        {
+            var player = Model.Players[i];
+            <tr>
+                <td>@player.FirstName "@player.NickName" @player.LastName</td>
+                @for (int j = 0; j < Model.Scores.GetLength(1); j++)
+                {
+                    if (i == j)
+                    {
+                        <td>-</td>
+                    }
+                    else
+                    {
+                        <td>@Model.Scores[i, j]</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    div {
+        text-align: center;
+    }
+
+    table {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 15px;
+    }
+
+    .row {
+        margin-top: 10px;
+    }
+
+    input[type='radio'] {
+        display: inline;
+    }
+
+    label {
+        display: block;
+        margin-top: 5px;
+    }
+
+    #registerGame {
+        margin: 30px auto;
+    }
+</style>
+
+<script>
+    $(function () {
+        $('#registerGame').click(function () {
+            $.ajax({
+                url: '/Home/RegisterGame',
+                data: {
+                    WinnerId: $('#winnerSelect').val(),
+                    LoserId: $('#loserSelect').val(),
+                    WinnerPocketedEightball: $('#winnerPocketedEightball').is(':checked')
+                }
+            }).done(function (result) {
+                Notify(result, result.substring(0, result.length) === "Game Registered succesfull" ? "success" : "danger");
+            });
+        });
+    });
+
+    function Notify(message, type, delay) {
+        if (message === undefined)
+            return;
+        if (type === undefined)
+            type = 'info';
+        if (delay === undefined)
+            delay = 2000;
+        $.notify({
+            // options
+            message: message
+        }, {
+            // settings
+            type: type,
+            placement: {
+                from: "top",
+                align: "center"
+            },
+            offset: {
+                y: 36
+            },
+            delay: delay
+        });
+    }
+</script>
