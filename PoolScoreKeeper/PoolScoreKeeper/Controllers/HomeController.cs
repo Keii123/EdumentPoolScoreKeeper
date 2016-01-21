@@ -95,29 +95,29 @@ namespace PoolScoreKeeper.Controllers
                 players.ForEach(session.Store);
                 session.SaveChanges();
 
-                var random = new Random();
-                int playerCount = players.Count;
-                var poolGames = new List<PoolGame>();
+                //var random = new Random();
+                //int playerCount = players.Count;
+                //var poolGames = new List<PoolGame>();
 
-                for (int i = 0; i < 200; i++)
-                {
-                    int winner = random.Next(0, playerCount);
-                    int loser = random.Next(0, playerCount);
-                    while (loser == winner)
-                    {
-                        loser = random.Next(0, playerCount);
-                    }
+                //for (int i = 0; i < 200; i++)
+                //{
+                //    int winner = random.Next(0, playerCount);
+                //    int loser = random.Next(0, playerCount);
+                //    while (loser == winner)
+                //    {
+                //        loser = random.Next(0, playerCount);
+                //    }
 
-                    poolGames.Add(new PoolGame
-                    {
-                        WinnerId = players[winner].Id,
-                        LoserId = players[loser].Id,
-                        CreatedDate = DateTime.Now.AddDays(0 - random.Next(90)),
-                        WinnerPocketedEightball = random.Next(2) % 2 == 0
-                    });
-                }
-                poolGames.ForEach(session.Store);
-                session.SaveChanges();
+                //    poolGames.Add(new PoolGame
+                //    {
+                //        WinnerId = players[winner].Id,
+                //        LoserId = players[loser].Id,
+                //        CreatedDate = DateTime.Now.AddDays(0 - random.Next(90)),
+                //        WinnerPocketedEightball = random.Next(2) % 2 == 0
+                //    });
+                //}
+                //poolGames.ForEach(session.Store);
+                //session.SaveChanges();
             }
         }
     }

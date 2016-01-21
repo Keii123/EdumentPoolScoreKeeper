@@ -57,7 +57,16 @@
         {
             var player = Model.Players[i];
             <tr>
-                <td>@player.FirstName "@player.NickName" @player.LastName</td>
+                @{
+                    var wins = 0;
+                    var losses = 0;
+                    for (int j = 0; j < Model.Scores.GetLength(0); j++)
+                    {
+                        wins += Model.Scores[i,j];
+                        losses += Model.Scores[j, i];
+                    }
+                }
+                <td>@player.FirstName "@player.NickName" @player.LastName (@wins/@losses)</td>
                 @for (int j = 0; j < Model.Scores.GetLength(1); j++)
                 {
                     if (i == j)
@@ -72,6 +81,21 @@
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <th>
+                <div class="row">
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4">Wins&uarr;</div>
+                    <div class="col-xs-4">Losses&rarr;</div>
+                </div>
+            </th>
+            @foreach (var player in Model.Players)
+            {
+                <th>@player.FirstName</th>
+            }
+        </tr>
+    </tfoot>
 </table>
 
 <style>
