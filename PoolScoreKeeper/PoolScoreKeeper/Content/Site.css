@@ -1,6 +1,53 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: darkgreen;
+    position: relative;
+    background-image: url('../Images/header_bg.jpg');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 140px;
+}
+
+#edument-logo {
+    position: absolute;
+    top: 4px;
+    left: 350px;
+}
+
+header {
+    height: 120px;
+    background-color: green;
+    position: fixed;
+    top: 0;
+    background-image: url('../Images/pool_table_felt.jpg');
+    background-size: cover;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 1px 1px 1px #333;
+    /*border-bottom: 9px solid blanchedalmond;*/
+}
+
+header h1 {
+    position: absolute;
+    left: 820px;
+    margin: 0;
+    text-align: center;
+    font-size: 60px;
+    line-height: 105px;
+    color: blanchedalmond;
+    text-shadow: 1px 1px 10px #333;
+    white-space: nowrap;
+}
+
+#logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -20,9 +67,98 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 500px;
 }
 
 table {
-    font-size: 8pt;
+    background-color: #fff;
+    border: 2px solid #fff;
+    margin-top: 20px;
+}
+
+td, th {
+    border-left: 1px solid #333;
+    text-align: center;
+}
+.medal {
+    height: 150px;
+    display: inline-block;
+}
+
+.player-wrapper {
+    background-color: brown;
+    position: relative;
+    padding: 20px 25px;
+    border-radius: 60px;
+    border: 3px solid gold;
+}
+
+.eightball {
+    position: absolute;
+    top: 110px;
+    left: 200px;
+}
+
+.eightball input {
+    height: 50px;
+    width: 50px;
+}
+
+.eightball-radio-btn {
+    position: absolute;
+    top: -27px;
+    left:70px;
+    height: 80px;
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    filter: blur(5px);
+}
+
+.active-eightball {
+    -webkit-filter: blur(0);
+    -moz-filter: blur(0);
+    -o-filter: blur(0);
+    filter: blur(0);
+}
+
+label {
+    display: inline;
+}
+
+.styled-select select {
+    position: absolute;
+    top: 25px;
+    left: 150px;
+    width: 60%;
+    border: 0 !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #fff url(../Images/arrow-down.png) no-repeat 98% center;
+    background-size: 30px;
+    font-weight: bold;
+    font-size: 16px;
+    text-indent: 0.01px;
+    text-overflow: "";
+    color: #333;
+    border-radius: 0;
+    padding: 5px;
+}
+
+.option-style {
+    height: 100px;
+    padding: 20px;
+    margin: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: inline-block;
+}
+
+.submit-btn {
+    font-size: 40px !important;
+
 }
