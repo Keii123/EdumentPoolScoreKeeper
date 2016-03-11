@@ -13,7 +13,7 @@
                     <option>Select winner</option>
                     @foreach (var player in Model.Players)
                     {
-                        <option value="@player.Id" class="option-style">@player.FirstName @player.LastName</option>
+                        <option value="@player.Id">@player.FirstName @player.LastName</option>
                     }
                 </select>
                 <div class="eightball">
@@ -147,22 +147,10 @@
             var playerColumn = $('table tr td:nth-child(' + playerIndex + ')');
             var playerRow = $('tr[data-player-name="' + player + '"]');
 
-
             var classToUse = $(this).is("#winnerSelect") ? "winner-highlight" : "loser-highlight";
             $("table tr, table tr td").removeClass(classToUse);
             playerColumn.addClass(classToUse);
             playerRow.addClass(classToUse);
-
-            console.log(playerIndex);
-
-            //if ($(this).is("#winnerSelect")) {
-            //    $("table tr, table tr td").removeClass("winner-highlight");
-            //} else {
-            //    $("table tr, table tr td").removeClass("loser-highlight");
-            //}
-            
-            
-            
         });
     });
 

@@ -67,7 +67,7 @@ header h1 {
 input,
 select,
 textarea {
-    max-width: 500px;
+    max-width: 340px;
 }
 
 table {
@@ -123,10 +123,6 @@ td, th {
     filter: blur(0);
 }
 
-label {
-    display: inline;
-}
-
 .styled-select select {
     position: absolute;
     top: 25px;
@@ -141,22 +137,11 @@ label {
     font-weight: bold;
     font-size: 16px;
     text-indent: 0.01px;
+    -moz-text-overflow: "";
     text-overflow: "";
     color: #333;
     border-radius: 0;
     padding: 5px;
-}
-
-.option-style {
-    height: 100px;
-    padding: 20px;
-    margin: 20px;
-    font-size: 16px;
-    font-weight: bold;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    display: inline-block;
 }
 
 .submit-btn {
@@ -169,5 +154,5 @@ label {
 }
 
 .loser-highlight {
-    background-color: silver;
+    background-color: silver !important;
 }
