@@ -62,7 +62,7 @@
             </th>
             @foreach (var player in Model.Players)
             {
-                <th>@player.FirstName</th>
+                <th data-player-name="@(player.FirstName + " " + player.LastName)">@player.FirstName</th>
             }
         </tr>
     </thead>
@@ -70,7 +70,7 @@
         @for (int i = 0; i < Model.Scores.GetLength(0); i++)
         {
             var player = Model.Players[i];
-            <tr>
+            <tr data-player-name="@(player.FirstName + " " + player.LastName)">
                 @{
                     var wins = 0;
                     var losses = 0;
@@ -141,8 +141,28 @@
             $(this).siblings('input[type="radio"]').prop("checked", true);
         });
 
-        $("select").change(function() {
-            console.log("Dedede");
+        $("select").change(function () {
+            var player = $(this).find("option:selected").text();
+            var playerIndex = $('th[data-player-name="' + player + '"]').index() + 1;
+            var playerColumn = $('table tr td:nth-child(' + playerIndex + ')');
+            var playerRow = $('tr[data-player-name="' + player + '"]');
+
+
+            var classToUse = $(this).is("#winnerSelect") ? "winner-highlight" : "loser-highlight";
+            $("table tr, table tr td").removeClass(classToUse);
+            playerColumn.addClass(classToUse);
+            playerRow.addClass(classToUse);
+
+            console.log(playerIndex);
+
+            //if ($(this).is("#winnerSelect")) {
+            //    $("table tr, table tr td").removeClass("winner-highlight");
+            //} else {
+            //    $("table tr, table tr td").removeClass("loser-highlight");
+            //}
+            
+            
+            
         });
     });
 

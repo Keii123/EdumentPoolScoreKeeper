@@ -74,6 +74,7 @@ table {
     background-color: #fff;
     border: 2px solid #fff;
     margin-top: 20px;
+    font-size: 22px;
 }
 
 td, th {
@@ -161,4 +162,12 @@ label {
 .submit-btn {
     font-size: 40px !important;
     margin-top: 60px;
+}
+
+.winner-highlight {
+    background-color: #008080 !important;
+}
+
+.loser-highlight {
+    background-color: silver;
 }
