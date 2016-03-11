@@ -10,6 +10,7 @@
             <img src="~/Images/gold_medal.png" class="medal" />
             <div class="styled-select">
                 <select id="winnerSelect" class="form-control">
+                    <option>Select winner</option>
                     @foreach (var player in Model.Players)
                     {
                         <option value="@player.Id" class="option-style">@player.FirstName @player.LastName</option>
@@ -34,6 +35,7 @@
             <img src="~/Images/silver_medal.png" class="medal" />
             <div class="styled-select">
                 <select id="loserSelect" class="form-control">
+                    <option>Select runner up</option>
                     @foreach (var player in Model.Players)
                     {
                         <option value="@player.Id">@player.FirstName @player.LastName</option>
@@ -114,6 +116,10 @@
 <script>
     $(function () {
         $('#registerGame').click(function () {
+            if ($("#loserSelect").val() === "Select runner up" || $("#winnerSelect").val() === "Select winner") {
+                Notify("Select both winner and runner up", "danger", false);
+                return;
+            }
             $.ajax({
                 url: '/Home/RegisterGame',
                 data: {
@@ -122,7 +128,8 @@
                     WinnerPocketedEightball: $('#winnerPocketedEightball').is(':checked')
                 }
             }).done(function (result) {
-                Notify(result, result.substring(0, result.length) === "Game Registered succesfull" ? "success" : "danger");
+                var type = result.substring(0, result.length) === "Game Registered succesfull" ? "success" : "danger";
+                Notify(result, type, type === "success" ? true : false);
             });
         });
 
@@ -133,9 +140,13 @@
             $(".eightball-radio-btn").toggleClass("active-eightball");
             $(this).siblings('input[type="radio"]').prop("checked", true);
         });
+
+        $("select").change(function() {
+            console.log("Dedede");
+        });
     });
 
-    function Notify(message, type, delay) {
+    function Notify(message, type, reload, delay) {
         if (message === undefined)
             return;
         if (type === undefined)
@@ -153,9 +164,14 @@
                 align: "center"
             },
             offset: {
-                y: 36
+                y: 133
             },
-            delay: delay
+            delay: delay,
+            onClosed: function () {
+                if (reload) {
+                    location.reload();
+                }
+            }
         });
     }
 </script>
