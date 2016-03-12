@@ -50,13 +50,17 @@ namespace PoolScoreKeeper.Services
 
                 var losses = poolGames.Count(x => x.LoserId == playerId);
                 var wins = poolGames.Count(x => x.WinnerId == playerId);
+                var winningEightBalls = poolGames.Count(x => x.WinnerId == playerId && x.WinnerPocketedEightball);
+                var losingEightBalls = poolGames.Count(x => x.LoserId == playerId && !x.WinnerPocketedEightball);
 
                 return new PlayerStatistics
                 {
                     Id = playerId,
                     Name = player.FirstName + " " + player.LastName,
                     Losses = losses,
-                    Wins = wins
+                    Wins = wins,
+                    WinningEightBalls = winningEightBalls,
+                    LosingEightBalls = losingEightBalls
                 };
             }
         }
@@ -91,6 +95,7 @@ namespace PoolScoreKeeper.Services
                 {
                     WinningSidePlayer = new PlayerStatistics
                     {
+                        Id = winnerSidePlayerId,
                         Name = winnerSidePlayer.FirstName + " " + winnerSidePlayer.LastName,
                         Wins = winnerSideWins,
                         Losses = runnerUpSideWins,
@@ -99,13 +104,13 @@ namespace PoolScoreKeeper.Services
                     },
                     RunnerUpSidePlayer = new PlayerStatistics
                     {
+                        Id = runnerUpSidePlayerId,
                         Name = runnerUpSidePlayer.FirstName + " " + runnerUpSidePlayer.LastName,
                         Wins = runnerUpSideWins,
                         Losses = winnerSideWins,
                         WinningEightBalls = runnerUpSideWinningEightBalls,
                         LosingEightBalls = runnerUpSideLosingEightBalls
                     }
-
                 };
             }
         }

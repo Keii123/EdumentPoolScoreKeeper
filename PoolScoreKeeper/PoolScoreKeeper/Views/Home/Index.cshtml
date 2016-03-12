@@ -8,8 +8,7 @@
     <div class="col-md-4">
         <div class="player-wrapper">
             <img src="~/Images/gold_medal.png" class="medal" />
-            <div class="styled-select">
-                <select id="winnerSelect" class="form-control">
+                <select id="winnerSelect" class="form-control styled-select">
                     <option>Select winner</option>
                     @foreach (var player in Model.Players)
                     {
@@ -20,9 +19,6 @@
                     <input id="winnerPocketedEightball" type="radio" name="winnerPocketedEightball" checked class="hidden"/>
                     <img src="~/Images/eightball.png" class="eightball-radio-btn active-eightball" />
                 </div>
-            </div>
-
-
         </div>
     </div>
 
@@ -34,8 +30,7 @@
     <div class="col-md-4">
         <div class="player-wrapper">
             <img src="~/Images/silver_medal.png" class="medal" />
-            <div class="styled-select">
-                <select id="loserSelect" class="form-control">
+                <select id="loserSelect" class="form-control styled-select">
                     <option>Select runner up</option>
                     @foreach (var player in Model.Players)
                     {
@@ -46,7 +41,6 @@
                     <input id="loserPocketedEightball" type="radio" name="winnerPocketedEightball" class="hidden"/>
                     <img src="~/Images/eightball.png" class="eightball-radio-btn"/>
                 </div>
-            </div>
         </div>
     </div>
 </div>
@@ -159,46 +153,34 @@
         $("select").change(function () {
             $(".intersect-highlight").removeClass("intersect-highlight");
             var playerName = $(this).find("option:selected").text();
-            var playerId = $(this).val();
             var playerIndex = $('th[data-player-name="' + playerName + '"]').index() + 1;
-            var playerColumn = $('table tr td:nth-child(' + playerIndex + ')');
+            var playerColumn = $('.scoreboard tr td:nth-child(' + playerIndex + ')');
             var playerRow = $('tr[data-player-name="' + playerName + '"]');
 
             var classToUse = $(this).is("#winnerSelect") ? "winner-highlight" : "loser-highlight";
-            $("table tr, table tr td").removeClass(classToUse);
+            $(".scoreboard tr, .scoreboard tr td").removeClass(classToUse);
             playerColumn.addClass(classToUse);
             playerRow.children("td").addClass(classToUse);
             $(".winner-highlight.loser-highlight").addClass("intersect-highlight");
 
-            //$.ajax({
-            //    url: '/Home/GetPlayerStatistics',
-            //    data: {
-            //        playerId: playerId
-            //    }
-            //});
-
-            getComparePlayers();
+            printPlayerStats($(this));
         });
     });
-
-    function getComparePlayers() {
-        console.log(bothPlayerSelected());
-        if (!bothPlayerSelected()) {
-            return;
-        }
-
-        var winnerSidePlayerId = $("#winnerSelect").val();
-        var runnerUpSidePlayerId = $("#loserSelect").val();
-
+    function printPlayerStats(select) {
+        select.siblings(".player-mini-table").remove();
         $.ajax({
-            url: '/Home/GetComparePlayerStatistics',
+            url: '/Home/GetPlayerStatistics',
             data: {
-                winnerSidePlayerId: winnerSidePlayerId,
-                runnerUpSidePlayerId: runnerUpSidePlayerId
+                playerId: select.val()
+            },
+            success: function(data) {
+                var playerWrapper = select.closest(".player-wrapper");
+                var output = '<table class="table player-mini-table"><tr><td>Games played</td><td class="text-center">' + (data.Wins + data.Losses) + '</td></tr><tr><td>Wins</td><td class="text-center">' + data.Wins + '</td></tr><tr><td>Losses</td><td class="text-center">' + data.Losses + '</td></tr><tr><td>Win ratio</td><td class="text-center">' + data.WinRatio + '</td></tr><tr><td>Winning eightballs</td><td class="text-center">' + data.WinningEightBalls + '</td></tr><tr><td>Eightballs of death</td><td class="text-center">' + data.LosingEightBalls + '</td></tr></table>';
+                playerWrapper.append(output);
+                select.siblings(".player-mini-table").hide().fadeIn(500);
+                playerWrapper.css("height", playerWrapper.outerHeight());
             }
         });
-
-
     }
 
     function bothPlayerSelected() {
