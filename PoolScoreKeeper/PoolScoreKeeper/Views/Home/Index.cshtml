@@ -80,10 +80,10 @@
                         wins += Model.Scores[i, j];
                         losses += Model.Scores[j, i];
                     }
-                    var ratio = losses != 0 ? ((double)wins / (double)losses).ToString("N2") : wins.ToString();
+                    var ratio = losses != 0 ? (((double)wins / (double)losses) * 100).ToString("N0") : (wins * 100).ToString();
                 }
 
-                <td><strong>@player.FirstName "@player.NickName" @player.LastName (@("W" + wins + " L" + losses + " R" + ratio))</strong></td>
+                <td><strong>@player.FirstName "@player.NickName" @player.LastName (@(wins + "/" + losses + "/" + ratio + "%"))</strong></td>
                 @*<td><strong>@player.FirstName @player.LastName (@("W" + wins + " L" + losses + " R" + ratio))</strong></td>*@
                 @for (int j = 0; j < Model.Scores.GetLength(1); j++)
                 {

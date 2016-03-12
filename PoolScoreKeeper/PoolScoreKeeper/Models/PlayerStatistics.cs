@@ -14,9 +14,9 @@
             get
             {
                 if(Losses == 0)
-                    return ((double)Wins).ToString("N2");
+                    return ((double)Wins * 100).ToString("N0") + "%";
 
-                return ((double)Wins/(double)Losses).ToString("N2");
+                return (((double)Wins/(double)Losses) * 100).ToString("N0") + "%";
             }
         }
 

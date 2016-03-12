@@ -168,11 +168,11 @@ textarea {
 }
 
 .loser-highlight {
-    background-color: silver !important;
+    background-color: darkgoldenrod !important;
 }
 
 .intersect-highlight {
-    background-color: #d2691e !important;
+    background-color: indianred !important;
 }
 
 .player-stats {
