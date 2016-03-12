@@ -142,6 +142,7 @@
         });
 
         $("select").change(function () {
+            $(".intersect-highlight").removeClass("intersect-highlight");
             var player = $(this).find("option:selected").text();
             var playerIndex = $('th[data-player-name="' + player + '"]').index() + 1;
             var playerColumn = $('table tr td:nth-child(' + playerIndex + ')');
@@ -150,7 +151,8 @@
             var classToUse = $(this).is("#winnerSelect") ? "winner-highlight" : "loser-highlight";
             $("table tr, table tr td").removeClass(classToUse);
             playerColumn.addClass(classToUse);
-            playerRow.addClass(classToUse);
+            playerRow.children("td").addClass(classToUse);
+            $(".winner-highlight.loser-highlight").addClass("intersect-highlight");
         });
     });
 

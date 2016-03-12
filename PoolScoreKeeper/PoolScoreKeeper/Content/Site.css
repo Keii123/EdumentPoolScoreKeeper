@@ -156,3 +156,7 @@ td, th {
 .loser-highlight {
     background-color: silver !important;
 }
+
+.intersect-highlight {
+    background-color: #d2691e !important;
+}
