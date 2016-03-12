@@ -70,14 +70,14 @@ textarea {
     max-width: 340px;
 }
 
-table {
+.scoreboard {
     background-color: #fff;
     border: 2px solid #fff;
     margin-top: 20px;
     font-size: 22px;
 }
 
-td, th {
+.scoreboard td, .scoreboard th {
     border-left: 1px solid #333;
     text-align: center;
 }
@@ -114,7 +114,11 @@ td, th {
     -moz-filter: blur(5px);
     -o-filter: blur(5px);
     filter: blur(5px);
+    cursor: pointer;
+    transition: 0.1s;
 }
+
+
 
 .active-eightball {
     -webkit-filter: blur(0);
@@ -145,8 +149,18 @@ td, th {
 }
 
 .submit-btn {
+    width: 320px;
     font-size: 40px !important;
-    margin-top: 60px;
+    margin-top: 15px;
+    color: blanchedalmond;
+    text-shadow: 1px 1px 10px #333;
+    background: url('../Images/pool_table_felt.jpg') no-repeat center;
+}
+
+.submit-btn:hover {
+    color: #fff;
+    box-shadow: 1px 1px 10px darkgreen;
+    background: url('../Images/pool_table_felt.jpg');
 }
 
 .winner-highlight {
@@ -159,4 +173,22 @@ td, th {
 
 .intersect-highlight {
     background-color: #d2691e !important;
+}
+
+.player-stats {
+    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-top-left-radius: 80px; 
+    border-bottom-right-radius: 80px;
+    border: 5px solid #333;
+    margin-top: 35px;
+}
+
+.player-stats h1 {
+    font-size: 45px
+}
+
+.player-compare-table {
+    font-size: 40px;
 }

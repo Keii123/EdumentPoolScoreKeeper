@@ -1,4 +1,4 @@
-﻿@model PoolScoreKeeper.Models.HomeIndexViewModel
+﻿@model PoolScoreKeeper.Models.ScoreBoard
 
 @{
     ViewBag.Title = "Home Page";
@@ -17,7 +17,7 @@
                     }
                 </select>
                 <div class="eightball">
-                    <input id="winnerPocketedEightball" type="radio" name="winnerPocketedEightball" checked class="hidden" />
+                    <input id="winnerPocketedEightball" type="radio" name="winnerPocketedEightball" checked class="hidden"/>
                     <img src="~/Images/eightball.png" class="eightball-radio-btn active-eightball" />
                 </div>
             </div>
@@ -27,7 +27,8 @@
     </div>
 
     <div class="col-md-4 text-center">
-        <div id="registerGame" class="btn btn-success btn-lg text-uppercase submit-btn">Submit Game</div>
+        <div id="registerGame" class="btn btn-success btn-lg submit-btn">SUBMIT GAME</div><br />
+        <div id="compare" class="btn btn-success btn-lg submit-btn">COMPARE</div>
     </div>
 
     <div class="col-md-4">
@@ -50,7 +51,7 @@
     </div>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped scoreboard">
     <thead>
         <tr>
             <th>
@@ -79,8 +80,11 @@
                         wins += Model.Scores[i, j];
                         losses += Model.Scores[j, i];
                     }
+                    var ratio = losses != 0 ? ((double)wins / (double)losses).ToString("N2") : wins.ToString();
                 }
-                <td>@player.FirstName "@player.NickName" @player.LastName (@wins/@losses)</td>
+
+                <td><strong>@player.FirstName "@player.NickName" @player.LastName (@("W" + wins + " L" + losses + " R" + ratio))</strong></td>
+                @*<td><strong>@player.FirstName @player.LastName (@("W" + wins + " L" + losses + " R" + ratio))</strong></td>*@
                 @for (int j = 0; j < Model.Scores.GetLength(1); j++)
                 {
                     if (i == j)
@@ -116,7 +120,7 @@
 <script>
     $(function () {
         $('#registerGame').click(function () {
-            if ($("#loserSelect").val() === "Select runner up" || $("#winnerSelect").val() === "Select winner") {
+            if (!bothPlayerSelected()) {
                 Notify("Select both winner and runner up", "danger", false);
                 return;
             }
@@ -128,9 +132,20 @@
                     WinnerPocketedEightball: $('#winnerPocketedEightball').is(':checked')
                 }
             }).done(function (result) {
-                var type = result.substring(0, result.length) === "Game Registered succesfull" ? "success" : "danger";
+                var type = result.substring(0, result.length) === "Game Registered successfully" ? "success" : "danger";
                 Notify(result, type, type === "success" ? true : false);
             });
+        });
+
+        $('#compare').click(function () {
+            if (!bothPlayerSelected()) {
+                Notify("Select two players to compare", "danger", false);
+                return;
+            }
+            var winnerSidePlayerId = $("#winnerSelect").val();
+            var runnerUpSidePlayerId = $("#loserSelect").val();
+
+            location.href = "/Home/PlayerComparison?winnerSidePlayerId=" + winnerSidePlayerId + "&runnerUpSidePlayerId=" + runnerUpSidePlayerId;
         });
 
         $(".eightball-radio-btn").click(function() {
@@ -143,18 +158,52 @@
 
         $("select").change(function () {
             $(".intersect-highlight").removeClass("intersect-highlight");
-            var player = $(this).find("option:selected").text();
-            var playerIndex = $('th[data-player-name="' + player + '"]').index() + 1;
+            var playerName = $(this).find("option:selected").text();
+            var playerId = $(this).val();
+            var playerIndex = $('th[data-player-name="' + playerName + '"]').index() + 1;
             var playerColumn = $('table tr td:nth-child(' + playerIndex + ')');
-            var playerRow = $('tr[data-player-name="' + player + '"]');
+            var playerRow = $('tr[data-player-name="' + playerName + '"]');
 
             var classToUse = $(this).is("#winnerSelect") ? "winner-highlight" : "loser-highlight";
             $("table tr, table tr td").removeClass(classToUse);
             playerColumn.addClass(classToUse);
             playerRow.children("td").addClass(classToUse);
             $(".winner-highlight.loser-highlight").addClass("intersect-highlight");
+
+            //$.ajax({
+            //    url: '/Home/GetPlayerStatistics',
+            //    data: {
+            //        playerId: playerId
+            //    }
+            //});
+
+            getComparePlayers();
         });
     });
+
+    function getComparePlayers() {
+        console.log(bothPlayerSelected());
+        if (!bothPlayerSelected()) {
+            return;
+        }
+
+        var winnerSidePlayerId = $("#winnerSelect").val();
+        var runnerUpSidePlayerId = $("#loserSelect").val();
+
+        $.ajax({
+            url: '/Home/GetComparePlayerStatistics',
+            data: {
+                winnerSidePlayerId: winnerSidePlayerId,
+                runnerUpSidePlayerId: runnerUpSidePlayerId
+            }
+        });
+
+
+    }
+
+    function bothPlayerSelected() {
+        return $("#loserSelect").val() !== "Select runner up" && $("#winnerSelect").val() !== "Select winner";
+    }
 
     function Notify(message, type, reload, delay) {
         if (message === undefined)
