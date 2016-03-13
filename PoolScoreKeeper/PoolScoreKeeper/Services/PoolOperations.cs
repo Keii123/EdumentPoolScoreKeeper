@@ -75,27 +75,38 @@ namespace PoolScoreKeeper.Services
             }
         }
 
-        public ComparePlayersStatistics GetComparePlayersStatistics(string winnerSidePlayerId, string runnerUpSidePlayerId)
+        private Player GetPlayer(string name)
+        {
+            var splittedName = name.Split('-');
+            var firstName = splittedName[0];
+            var lastName = splittedName[1];
+
+            using (var session = store.OpenSession())
+            {
+                return session.Query<Player>().First(x => x.FirstName  == firstName && x.LastName == lastName);
+            }
+        }
+        public ComparePlayersStatistics GetComparePlayersStatistics(string winnerSidePlayerName, string runnerUpSidePlayerName)
         {
             using (var session = store.OpenSession())
             {
-                var winnerSidePlayer = session.Load<Player>(winnerSidePlayerId);
-                var runnerUpSidePlayer = session.Load<Player>(runnerUpSidePlayerId);
-                var poolGames = session.Query<PoolGame>().Where(x => (x.WinnerId == winnerSidePlayerId || x.WinnerId == runnerUpSidePlayerId) && 
-                                                                     (x.LoserId == winnerSidePlayerId || x.LoserId == runnerUpSidePlayerId)).ToList();
+                var winnerSidePlayer = GetPlayer(winnerSidePlayerName);
+                var runnerUpSidePlayer = GetPlayer(runnerUpSidePlayerName);
+                var poolGames = session.Query<PoolGame>().Where(x => (x.WinnerId == winnerSidePlayer.Id || x.WinnerId == runnerUpSidePlayer.Id) && 
+                                                                     (x.LoserId == winnerSidePlayer.Id || x.LoserId == runnerUpSidePlayer.Id)).ToList();
 
-                var winnerSideWins = poolGames.Count(x => x.WinnerId == winnerSidePlayerId);
-                var runnerUpSideWins = poolGames.Count(x => x.WinnerId == runnerUpSidePlayerId);
-                var winnerSideWinningEightBalls = poolGames.Count(x => x.WinnerId == winnerSidePlayerId && x.WinnerPocketedEightball);
-                var winnerSideLosingEightBalls = poolGames.Count(x => x.LoserId == winnerSidePlayerId && !x.WinnerPocketedEightball);
-                var runnerUpSideWinningEightBalls = poolGames.Count(x => x.WinnerId == runnerUpSidePlayerId && x.WinnerPocketedEightball);
-                var runnerUpSideLosingEightBalls = poolGames.Count(x => x.LoserId == runnerUpSidePlayerId && !x.WinnerPocketedEightball);
+                var winnerSideWins = poolGames.Count(x => x.WinnerId == winnerSidePlayer.Id);
+                var runnerUpSideWins = poolGames.Count(x => x.WinnerId == runnerUpSidePlayer.Id);
+                var winnerSideWinningEightBalls = poolGames.Count(x => x.WinnerId == winnerSidePlayer.Id && x.WinnerPocketedEightball);
+                var winnerSideLosingEightBalls = poolGames.Count(x => x.LoserId == winnerSidePlayer.Id && !x.WinnerPocketedEightball);
+                var runnerUpSideWinningEightBalls = poolGames.Count(x => x.WinnerId == runnerUpSidePlayer.Id && x.WinnerPocketedEightball);
+                var runnerUpSideLosingEightBalls = poolGames.Count(x => x.LoserId == runnerUpSidePlayer.Id && !x.WinnerPocketedEightball);
 
                 return new ComparePlayersStatistics
                 {
                     WinningSidePlayer = new PlayerStatistics
                     {
-                        Id = winnerSidePlayerId,
+                        Id = winnerSidePlayer.Id,
                         Name = winnerSidePlayer.FirstName + " " + winnerSidePlayer.LastName,
                         Wins = winnerSideWins,
                         Losses = runnerUpSideWins,
@@ -104,7 +115,7 @@ namespace PoolScoreKeeper.Services
                     },
                     RunnerUpSidePlayer = new PlayerStatistics
                     {
-                        Id = runnerUpSidePlayerId,
+                        Id = runnerUpSidePlayer.Id,
                         Name = runnerUpSidePlayer.FirstName + " " + runnerUpSidePlayer.LastName,
                         Wins = runnerUpSideWins,
                         Losses = winnerSideWins,

@@ -39,9 +39,9 @@ namespace PoolScoreKeeper.Controllers
             return Json(playerStatistics, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult PlayerComparison(string winnerSidePlayerId, string runnerUpSidePlayerId)
+        public ActionResult PlayerComparison(string winnerSidePlayerName, string runnerUpSidePlayerName)
         {
-            var comparePlayersStatistics = poolOps.GetComparePlayersStatistics(winnerSidePlayerId, runnerUpSidePlayerId);
+            var comparePlayersStatistics = poolOps.GetComparePlayersStatistics(winnerSidePlayerName, runnerUpSidePlayerName);
             return View(comparePlayersStatistics);
         }
 
