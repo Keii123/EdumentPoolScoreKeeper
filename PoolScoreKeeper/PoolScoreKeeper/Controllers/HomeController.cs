@@ -45,6 +45,24 @@ namespace PoolScoreKeeper.Controllers
             return View(comparePlayersStatistics);
         }
 
+        public ActionResult AddPlayer()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPlayer(Player player)
+        {
+            if (ModelState.IsValid)
+            {
+                poolOps.AddPlayer(player);
+                return RedirectToAction("Index");
+            }
+
+            return View(player);
+        }
+
         //private void Seed()
         //{
         //    using (var session = _store.OpenSession())

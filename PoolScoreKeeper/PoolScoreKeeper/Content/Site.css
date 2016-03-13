@@ -11,6 +11,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     padding-top: 140px;
+    overflow-y: scroll;
 }
 
 #edument-logo {
@@ -174,7 +175,7 @@ textarea {
     background-color: indianred !important;
 }
 
-.player-stats {
+.player-stats, .add-player {
     background-color: brown;
     background-color: rgba(165, 42, 42, 0.9);
     padding: 15px;
@@ -184,7 +185,7 @@ textarea {
     margin-top: 35px;
 }
 
-.player-stats h1 {
+.player-stats h1, .add-player h1 {
     font-size: 45px;
     color: blanchedalmond;
 }
@@ -203,4 +204,30 @@ textarea {
 
 .player-compare-table td, .player-mini-table td {
     border-color: darkred !important;
+}
+
+.add-player hr {
+    border-color: darkred !important;
+}
+
+.add-player a, .add-player label, .add-player span {
+    color: blanchedalmond;
+    font-size: 18px;
+}
+
+.add-player input, .add-player span {
+    margin-left: 20px;
+}
+
+#add-player-btn {
+    position: absolute;
+    color: blanchedalmond;
+    font-size: 40px;
+    margin: 40px 10px 10px 15px;
+    cursor: pointer;
+}
+
+#add-player-btn:hover {
+    color: #fff;
+    text-shadow: 1px 1px 10px #333;
 }

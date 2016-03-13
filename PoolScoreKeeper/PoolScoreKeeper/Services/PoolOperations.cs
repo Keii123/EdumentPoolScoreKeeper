@@ -75,6 +75,15 @@ namespace PoolScoreKeeper.Services
             }
         }
 
+        public void AddPlayer(Player player)
+        {
+            using (var session = store.OpenSession())
+            {
+                session.Store(player);
+                session.SaveChanges();
+            }
+        }
+
         private Player GetPlayer(string name)
         {
             var splittedName = name.Split('-');

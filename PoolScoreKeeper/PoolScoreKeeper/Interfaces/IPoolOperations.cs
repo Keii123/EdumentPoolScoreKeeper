@@ -10,6 +10,8 @@ namespace PoolScoreKeeper.Interfaces
 
         void RegisterGame(PoolGame poolGame);
 
+        void AddPlayer(Player player);
+
         ComparePlayersStatistics GetComparePlayersStatistics(string winnerSidePlayerId, string runnerUpSidePlayerId);
     }
 }
