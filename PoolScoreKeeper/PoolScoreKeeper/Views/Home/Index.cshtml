@@ -138,11 +138,7 @@
             }
             var winnerSidePlayerName = $("#winnerSelect").find("option:selected").text();
             var runnerUpSidePlayerName = $("#loserSelect").find("option:selected").text();
-            var test = "@Url.RouteUrl("PlayerCompare", new { winnerSidePlayerName = "Mattias", runnerUpSidePlayerName = "Armin" })";
-            console.log(test);
-            console.log("/Comparing/" + winnerSidePlayerName.replace(' ', '-') + "/And/" + runnerUpSidePlayerName.replace(' ', '-'));
-            //location.href = "/Home/PlayerComparison?winnerSidePlayerId=" + winnerSidePlayerId + "&runnerUpSidePlayerId=" + runnerUpSidePlayerId;
-            location.href = "/Comparing/" + winnerSidePlayerName.replace(' ', '-') + "/And/" + runnerUpSidePlayerName.replace(' ', '-');
+            location.href = "/Comparing/" + winnerSidePlayerName.replace(' ', '-') + "/With/" + runnerUpSidePlayerName.replace(' ', '-');
         });
 
         $(".eightball-radio-btn").click(function() {

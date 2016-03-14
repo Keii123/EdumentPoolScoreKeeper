@@ -185,7 +185,7 @@ textarea {
     margin-top: 35px;
 }
 
-.player-stats h1, .add-player h1 {
+.player-stats h1, .add-player h1, .add-player h1 span {
     font-size: 45px;
     color: blanchedalmond;
 }
@@ -216,7 +216,7 @@ textarea {
 }
 
 .add-player input, .add-player span {
-    margin-left: 20px;
+    /*margin-left: 20px;*/
 }
 
 #add-player-btn {
@@ -230,4 +230,27 @@ textarea {
 #add-player-btn:hover {
     color: #fff;
     text-shadow: 1px 1px 10px #333;
+}
+
+.add-player input[type="text"] {
+    border-radius: 0;
+    font-size: 25px;
+    max-width: 100%;
+    height: 50px
+}
+
+#save-player-btn {
+    max-width: 100%;
+    width: 100%;
+    font-size: 30px !important;
+    color: blanchedalmond;
+    text-shadow: 1px 1px 10px #333;
+    background: url('../Images/pool_table_felt.jpg') no-repeat center;
+    border: none;
+}
+
+#save-player-btn:hover {
+    color: #fff;
+    box-shadow: 1px 1px 10px darkgreen;
+    background: url('../Images/pool_table_felt.jpg');
 }

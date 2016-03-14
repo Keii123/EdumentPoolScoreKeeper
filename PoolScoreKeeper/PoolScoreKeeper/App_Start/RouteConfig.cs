@@ -15,7 +15,7 @@ namespace PoolScoreKeeper
 
             routes.MapRoute(
                 name: "PlayerCompare",
-                url: "Comparing/{winnerSidePlayerName}/And/{runnerUpSidePlayerName}",
+                url: "Comparing/{winnerSidePlayerName}/With/{runnerUpSidePlayerName}",
                 defaults: new { controller = "Home", action = "PlayerComparison", winnerSidePlayerName = UrlParameter.Optional, runnerUpSidePlayerName = UrlParameter.Optional }
             );
 

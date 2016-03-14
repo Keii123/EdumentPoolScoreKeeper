@@ -17,7 +17,7 @@ namespace PoolScoreKeeper.Services
             int[,] scores;
             using (var session = store.OpenSession())
             {
-                players = session.Query<Player>().OrderBy(x => x.FirstName).ToList();
+                players = session.Query<Player>().Customize(x => x.WaitForNonStaleResultsAsOfNow(TimeSpan.FromSeconds(5))).OrderBy(x => x.FirstName).ToList();
                 List<PoolGame> poolGames = session.Query<PoolGame>().Take(10000).ToList();
 
                 scores = new int[players.Count, players.Count];
@@ -79,6 +79,7 @@ namespace PoolScoreKeeper.Services
         {
             using (var session = store.OpenSession())
             {
+                
                 session.Store(player);
                 session.SaveChanges();
             }
@@ -113,26 +114,23 @@ namespace PoolScoreKeeper.Services
 
                 return new ComparePlayersStatistics
                 {
-                    WinningSidePlayer = new PlayerStatistics
-                    {
-                        Id = winnerSidePlayer.Id,
-                        Name = winnerSidePlayer.FirstName + " " + winnerSidePlayer.LastName,
-                        Wins = winnerSideWins,
-                        Losses = runnerUpSideWins,
-                        WinningEightBalls = winnerSideWinningEightBalls,
-                        LosingEightBalls = winnerSideLosingEightBalls
-                    },
-                    RunnerUpSidePlayer = new PlayerStatistics
-                    {
-                        Id = runnerUpSidePlayer.Id,
-                        Name = runnerUpSidePlayer.FirstName + " " + runnerUpSidePlayer.LastName,
-                        Wins = runnerUpSideWins,
-                        Losses = winnerSideWins,
-                        WinningEightBalls = runnerUpSideWinningEightBalls,
-                        LosingEightBalls = runnerUpSideLosingEightBalls
-                    }
+                    WinningSidePlayer = CreatePlayerStatistics(winnerSidePlayer, winnerSideWins, runnerUpSideWins, winnerSideWinningEightBalls, winnerSideLosingEightBalls),
+                    RunnerUpSidePlayer = CreatePlayerStatistics(runnerUpSidePlayer, runnerUpSideWins, winnerSideWins, runnerUpSideWinningEightBalls, runnerUpSideLosingEightBalls)
                 };
             }
+        }
+
+        private static PlayerStatistics CreatePlayerStatistics(Player player, int wins, int losses, int winningEightBalls, int losingEightBalls)
+        {
+            return new PlayerStatistics
+            {
+                Id = player.Id,
+                Name = player.FirstName + " " + player.LastName,
+                Wins = wins,
+                Losses = losses,
+                WinningEightBalls = winningEightBalls,
+                LosingEightBalls = losingEightBalls
+            };
         }
     }
 }
