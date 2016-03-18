@@ -17,7 +17,7 @@
                 </select>
                 <div class="eightball">
                     <input id="winnerPocketedEightball" type="radio" name="winnerPocketedEightball" checked class="hidden"/>
-                    <img src="~/Images/eightball.png" class="eightball-radio-btn active-eightball" />
+                    <img src="~/Images/eightball.png" class="eightball-radio-btn active-eightball" id="winner-eightball"/>
                 </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
                 </select>
                 <div class="eightball">
                     <input id="loserPocketedEightball" type="radio" name="winnerPocketedEightball" class="hidden"/>
-                    <img src="~/Images/eightball.png" class="eightball-radio-btn"/>
+                    <img src="~/Images/eightball-blur4-small.png" class="eightball-radio-btn" id="loser-eightball"/>
                 </div>
         </div>
     </div>
@@ -142,12 +142,35 @@
             location.href = "/Comparing/" + winnerSidePlayerName.replace(' ', '-') + "/With/" + runnerUpSidePlayerName.replace(' ', '-');
         });
 
+        
+
         $(".eightball-radio-btn").click(function() {
             if ($(this).hasClass("active-eightball")) {
                 return;
             }
+
+            var winnerEightball = $("#winner-eightball");
+            var loserEightball = $("#loser-eightball");
+
+            winnerEightball.hide();
+            loserEightball.hide();
+
             $(".eightball-radio-btn").toggleClass("active-eightball");
             $(this).siblings('input[type="radio"]').prop("checked", true);
+
+            if (loserEightball.hasClass("active-eightball")) {
+                loserEightball.attr("src", "/Images/8-Ball-Skull.png");
+            } else {
+                loserEightball.attr("src", "/Images/eightball-blur4-small.png");
+            }
+
+            if (winnerEightball.hasClass("active-eightball")) {
+                winnerEightball.attr("src", "/Images/eightball.png");
+            } else {
+                winnerEightball.attr("src", "/Images/eightball-blur4-small.png");
+            }
+            winnerEightball.show();
+            loserEightball.show();
         });
 
         $("select").change(function () {

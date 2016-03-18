@@ -179,8 +179,10 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Images\8-Ball-Skull.png" />
     <Content Include="Images\arrow-down.png" />
     <Content Include="Images\edument_logo.png" />
+    <Content Include="Images\eightball-blur4-small.png" />
     <Content Include="Images\eightball.png" />
     <Content Include="Images\gold_medal.png" />
     <Content Include="Images\header_bg.jpg" />
