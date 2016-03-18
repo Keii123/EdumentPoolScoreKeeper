@@ -127,7 +127,8 @@
                 }
             }).done(function (result) {
                 var type = result.substring(0, result.length) === "Game Registered successfully" ? "success" : "danger";
-                Notify(result, type, type === "success" ? true : false);
+                //Notify(result, type, type === "success" ? true : false);
+                Notify(result, type, false);
             });
         });
 
